@@ -9,6 +9,10 @@ function Ship() {
     length = size;
   }
 
+  function getShipLength(size) {
+    return length;
+  }
+
   function setId(Newid) {
     id = Newid;
   }
@@ -32,6 +36,7 @@ function Ship() {
     isSunk,
     hit,
     setShipLength,
+    getShipLength,
     setId,
     getId,
   };
@@ -40,20 +45,33 @@ function Ship() {
 function Gameboard() {
   // Gameboards should be able to place ships at specific coordinates by calling the ship factory.
 
-  const boardSize = Array.from({ length: 10 }, () => Array(10).fill(null)); // Correctly initializes a 10x10 array
+  const boardGrid = Array.from({ length: 10 }, () => Array(10).fill(null)); // Correctly initializes a 10x10 array
   // will be constant size
 
+  function placeShip(ship, startRow, startCol, layout = "h") {
+    // default layout state will be horizontal positioning;
+    // h = horizontal
+    // v = vertical
+    // set marker in board for ship
+    if (layout === "h") {
+      for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
+        boardGrid[startRow][i] = ship.getId();
+      }
+    } else {
+      for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
+        boardGrid[i][startRow] = ship.getId();
+      }
+    }
+  }
+
+  return { placeShip };
+}
+
+function createShips() {
   const ship1 = Ship();
   ship1.setShipLength(5);
   ship1.setId(1);
-  placeShip(ship1);
-
-  function placeShip(ship) {
-    boardSize[6][2] = ship.getId();
-    boardSize[6][3] = ship.getId();
-    boardSize[6][4] = ship.getId();
-    boardSize[6][5] = ship.getId();
-  }
+  Gameboard.placeShip(ship1);
 }
 
 module.exports = {
