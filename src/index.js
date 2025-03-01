@@ -58,21 +58,44 @@ function Gameboard() {
         boardGrid[startRow][i] = ship.getId();
       }
     } else {
+      // vertical ship placements
       for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
         boardGrid[i][startRow] = ship.getId();
       }
     }
   }
 
-  return { placeShip };
+  // Gameboards should have a (receiveAttack) function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
+  function receiveAttack(x, y) {
+    if (boardGrid[x][y] !== null) {
+    }
+  }
+
+  return { placeShip, boardGrid };
 }
 
-function createShips() {
-  const ship1 = Ship();
-  ship1.setShipLength(5);
-  ship1.setId(1);
-  Gameboard.placeShip(ship1);
-}
+// made it IIFE; as soon as the page loads, these ships with sizes will be created
+(function createShips() {
+  // by default there will be 10 ships of different sizes
+  const gameboard = Gameboard();
+  const ships = [];
+  const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+  const shipRowStartCoordinate = [6, 2, 4, 4, 4, 8, 9, 9, 5, 8];
+  const shipColStartCoordinate = [2, 1, 7, 2, 6, 6, 1, 4, 0, 7];
+  for (let i = 0; i < 10; i++) {
+    const ship = Ship();
+    ship.setId(i);
+    ship.setShipLength(shipLengths[i]);
+    ships.push(ship);
+    gameboard.placeShip(
+      ship,
+      shipRowStartCoordinate[i],
+      shipColStartCoordinate[i],
+      "h",
+    );
+  }
+  // ship1.setShipLength(5);
+})();
 
 module.exports = {
   Ship,

@@ -1,4 +1,4 @@
-const { Ship, Gameboard } = require("./index");
+const { Ship, Gameboard } = require("./index.js");
 
 test("ship is floating", () => {
   const s1 = Ship();
