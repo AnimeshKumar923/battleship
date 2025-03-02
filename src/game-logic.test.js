@@ -1,4 +1,4 @@
-const { Ship, Gameboard } = require("./game-logic");
+const { Ship, Gameboard, Player } = require("./game-logic");
 
 test("ship is floating", () => {
   const s1 = Ship();
@@ -90,14 +90,21 @@ test("check if board is populating as expected", () => {
   expect(gameboard.boardGrid[2][4]).toBeNull();
 });
 
-test("overlap of ships", () => {
-  expect().toBe();
+test("populate RowStart and ColStart array", () => {
+  const human = Player();
+  expect(human.gameboard.boardGrid[6][2]).toBe(0);
+  expect(human.gameboard.boardGrid[6][6]).toBe(0);
+  expect(human.gameboard.boardGrid[2][1]).toBeTruthy();
+  expect(human.gameboard.boardGrid[2][2]).toBeTruthy();
+  expect(human.gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(human.gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(human.gameboard.boardGrid[2][4]).toBeNull();
 });
 
-test("position already occupied", () => {
-  expect().toBe();
-});
+// test("position already occupied", () => {
+//   expect().toBe();
+// });
 
-test("position not occupied", () => {
-  expect().toBe();
-});
+// test("position not occupied", () => {
+//   expect().toBe();
+// });
