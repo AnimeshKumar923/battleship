@@ -60,7 +60,37 @@ test("ship placed is vertically", () => {
   expect().toBe();
 });
 
-test("check overlapping position", () => {
+test("check if board is populating as expected", () => {
+  const shipsInfo = [];
+  const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+  const shipRowStartCoordinate = [6, 2, 4, 4, 4, 8, 9, 9, 5, 8];
+  const shipColStartCoordinate = [2, 1, 7, 2, 5, 6, 1, 4, 0, 7];
+  const shipAlignment = ["h", "h", "v", "h", "v", "h", "h", "h", "h", "h"];
+
+  const gameboard = Gameboard(shipsInfo);
+
+  for (let i = 0; i < 10; i++) {
+    const ship = Ship();
+    ship.setId(i);
+    ship.setShipLength(shipLengths[i]);
+    shipsInfo.push(ship);
+    gameboard.placeShip(
+      ship,
+      shipRowStartCoordinate[i],
+      shipColStartCoordinate[i],
+      shipAlignment[i],
+    );
+  }
+  expect(gameboard.boardGrid[6][2]).toBe(0);
+  expect(gameboard.boardGrid[6][6]).toBe(0);
+  expect(gameboard.boardGrid[2][1]).toBeTruthy();
+  expect(gameboard.boardGrid[2][2]).toBeTruthy();
+  expect(gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(gameboard.boardGrid[2][4]).toBeNull();
+});
+
+test("overlap of ships", () => {
   expect().toBe();
 });
 
