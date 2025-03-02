@@ -89,23 +89,28 @@ function Player(playerType) {
   // There will be two types of players in the game, ‘real’ players and ‘computer’ players.
   const shipsInfo = [];
   const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-  // const shipRowStartCoordinate = [];
-  // const shipColStartCoordinate = [];
   const shipCoordinates = [
-    { x: 6, y: 2 },
-    { x: 2, y: 1 },
-    { x: 4, y: 7 },
-    { x: 4, y: 2 },
-    { x: 4, y: 5 },
-    { x: 8, y: 6 },
-    { x: 9, y: 1 },
-    { x: 9, y: 4 },
-    { x: 5, y: 0 },
-    { x: 8, y: 7 },
+    // example data format
+    // { x: 6, y: 2 },
+    // { x: 2, y: 1 },
+    // { x: 4, y: 7 },
+    // { x: 4, y: 2 },
+    // { x: 4, y: 5 },
+    // { x: 8, y: 6 },
+    // { x: 9, y: 1 },
+    // { x: 9, y: 4 },
+    // { x: 5, y: 0 },
+    // { x: 8, y: 7 },
   ];
   const shipAlignment = [];
+  // const shipAlignment = ["h", "h", "v", "h", "v", "h", "h", "h", "h", "h"];
 
-  const gameboard = Gameboard();
+  function setPositionAlignment(x, y, alignment) {
+    shipCoordinates.push({ x, y });
+    shipAlignment.push(alignment);
+  }
+
+  const gameboard = Gameboard(shipsInfo);
 
   function populateShips() {
     for (let i = 0; i < 10; i++) {
@@ -117,7 +122,6 @@ function Player(playerType) {
         ship,
         shipCoordinates[i].x,
         shipCoordinates[i].y,
-        // shipColStartCoordinate[i],
         shipAlignment[i],
       );
     }
@@ -126,7 +130,7 @@ function Player(playerType) {
     gameboard.receiveAttack(x, y);
   }
 
-  return { populateShips, gameboard };
+  return { populateShips, setPositionAlignment, makeMove, gameboard };
   // Each player object should contain its own gameboard.
 }
 
@@ -134,7 +138,8 @@ function Player(playerType) {
 const human = Player();
 const computer = Player();
 
-human.populateShips();
+computer.populateShips();
+computer.setShipCoordinates();
 // human.gameboard.boardGrid[0][0]
 
 // made it IIFE; as soon as the page loads, these ships with sizes will be created

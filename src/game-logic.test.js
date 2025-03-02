@@ -63,8 +63,18 @@ test("ship placed is vertically", () => {
 test("check if board is populating as expected", () => {
   const shipsInfo = [];
   const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-  const shipRowStartCoordinate = [6, 2, 4, 4, 4, 8, 9, 9, 5, 8];
-  const shipColStartCoordinate = [2, 1, 7, 2, 5, 6, 1, 4, 0, 7];
+  const shipCoordinates = [
+    { x: 6, y: 2 },
+    { x: 2, y: 1 },
+    { x: 4, y: 7 },
+    { x: 4, y: 2 },
+    { x: 4, y: 5 },
+    { x: 8, y: 6 },
+    { x: 9, y: 1 },
+    { x: 9, y: 4 },
+    { x: 5, y: 0 },
+    { x: 8, y: 7 },
+  ];
   const shipAlignment = ["h", "h", "v", "h", "v", "h", "h", "h", "h", "h"];
 
   const gameboard = Gameboard(shipsInfo);
@@ -76,8 +86,8 @@ test("check if board is populating as expected", () => {
     shipsInfo.push(ship);
     gameboard.placeShip(
       ship,
-      shipRowStartCoordinate[i],
-      shipColStartCoordinate[i],
+      shipCoordinates[i].x,
+      shipCoordinates[i].y,
       shipAlignment[i],
     );
   }
@@ -92,6 +102,7 @@ test("check if board is populating as expected", () => {
 
 test("populate RowStart and ColStart array", () => {
   const human = Player();
+  human.populateShips();
   expect(human.gameboard.boardGrid[6][2]).toBe(0);
   expect(human.gameboard.boardGrid[6][6]).toBe(0);
   expect(human.gameboard.boardGrid[2][1]).toBeTruthy();
@@ -100,11 +111,3 @@ test("populate RowStart and ColStart array", () => {
   expect(human.gameboard.boardGrid[2][3]).toBeTruthy();
   expect(human.gameboard.boardGrid[2][4]).toBeNull();
 });
-
-// test("position already occupied", () => {
-//   expect().toBe();
-// });
-
-// test("position not occupied", () => {
-//   expect().toBe();
-// });
