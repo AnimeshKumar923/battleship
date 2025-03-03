@@ -49,13 +49,21 @@ function Gameboard(shipsInfo) {
     // v = vertical
     // set marker in board for ship
     if (layout === "h") {
+      if (startCol + ship.getShipLength() > 10) {
+        // add oot of bound message later
+        return;
+      }
       for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
         boardGrid[startRow][i] = ship.getId();
       }
     } else {
       // vertical ship placements
-      for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
-        boardGrid[i][startRow] = ship.getId();
+      if (startRow + ship.getShipLength() > 10) {
+        // add message: Out of bound later
+        return;
+      }
+      for (let i = startRow; i < ship.getShipLength() + startRow; i++) {
+        boardGrid[i][startCol] = ship.getId();
       }
     }
   }
@@ -85,7 +93,7 @@ function Gameboard(shipsInfo) {
   return { placeShip, receiveAttack, checkAllShipStatus, boardGrid };
 }
 
-function Player(playerType) {
+function Player() {
   // There will be two types of players in the game, ‘real’ players and ‘computer’ players.
   const shipsInfo = [];
   const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
@@ -135,39 +143,12 @@ function Player(playerType) {
 }
 
 // types of players
-const human = Player();
+// const human = Player();
 const computer = Player();
 
-computer.populateShips();
-computer.setShipCoordinates();
+// computer.populateShips();
+// computer.setShipCoordinates();
 // human.gameboard.boardGrid[0][0]
-
-// made it IIFE; as soon as the page loads, these ships with sizes will be created
-(function createShips() {
-  // by default there will be 10 ships of different sizes placed at random locations
-  const shipsInfo = [];
-  const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-  const shipRowStartCoordinate = [6, 2, 4, 4, 4, 8, 9, 9, 5, 8];
-  const shipColStartCoordinate = [2, 1, 7, 2, 5, 6, 1, 4, 0, 7];
-  const shipAlignment = ["h", "h", "v", "h", "v", "h", "h", "h", "h", "h"];
-
-  const gameboard = Gameboard(shipsInfo);
-
-  for (let i = 0; i < 10; i++) {
-    const ship = Ship();
-    ship.setId(i);
-    ship.setShipLength(shipLengths[i]);
-    shipsInfo.push(ship);
-    gameboard.placeShip(
-      ship,
-      shipRowStartCoordinate[i],
-      shipColStartCoordinate[i],
-      shipAlignment[i],
-    );
-  }
-
-  return { shipsInfo };
-})();
 
 module.exports = {
   Ship,
