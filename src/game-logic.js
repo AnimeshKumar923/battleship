@@ -23,6 +23,10 @@ function Ship() {
     timesHit++;
   }
 
+  /**
+   *
+   * @returns sunk status of ship
+   */
   function isSunk() {
     return timesHit >= length ? true : false;
   }
@@ -39,10 +43,19 @@ function Ship() {
 
 function Gameboard(shipsInfo) {
   // Gameboards should be able to place ships at specific coordinates by calling the ship factory.
+  /**
+   * Initialize a constant 10*10 2D array with initial values as null
+   */
+  const boardGrid = Array.from({ length: 10 }, () => Array(10).fill(null));
 
-  const boardGrid = Array.from({ length: 10 }, () => Array(10).fill(null)); // Correctly initializes a 10x10 array
-  // will be constant size
-
+  /**
+   * Takes the ship, coordinates and alignment
+   * @param {object} ship ship which will be placed
+   * @param {number} startRow starting x-coordinate of ship
+   * @param {number} startCol starting y-coordinate of ship
+   * @param {string} layout ship alignment
+   * @returns
+   */
   function placeShip(ship, startRow, startCol, layout = "h") {
     // default layout state will be horizontal positioning;
     // h = horizontal
@@ -69,6 +82,12 @@ function Gameboard(shipsInfo) {
   }
 
   // Gameboards should have a (receiveAttack) function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
+
+  /**
+   * It takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
+   * @param {number} x x-coordinate of ship
+   * @param {number} y y-coordinate of ship
+   */
   function receiveAttack(x, y) {
     const shipId = boardGrid[x][y];
     if (shipId !== null) {
@@ -85,10 +104,14 @@ function Gameboard(shipsInfo) {
   // => fulfilled by marking the location as 'miss'
 
   // Gameboards should be able to report whether or not all of their ships have been sunk.
+
+  /**
+   * Checks if all the ships have sunk
+   */
   function checkAllShipStatus() {
     shipsInfo.forEach((ship) => {
       return ship.isSunk() ? true : false;
-    });
+    }); // incomplete logic for now
   }
   return { placeShip, receiveAttack, checkAllShipStatus, boardGrid };
 }
@@ -96,23 +119,16 @@ function Gameboard(shipsInfo) {
 function Player() {
   // There will be two types of players in the game, ‘real’ players and ‘computer’ players.
   const shipsInfo = [];
-  const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-  const shipCoordinates = [
-    // example data format
-    // { x: 6, y: 2 },
-    // { x: 2, y: 1 },
-    // { x: 4, y: 7 },
-    // { x: 4, y: 2 },
-    // { x: 4, y: 5 },
-    // { x: 8, y: 6 },
-    // { x: 9, y: 1 },
-    // { x: 9, y: 4 },
-    // { x: 5, y: 0 },
-    // { x: 8, y: 7 },
-  ];
+  const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1]; // 10 ships of predetermined length
+  const shipCoordinates = [];
   const shipAlignment = [];
-  // const shipAlignment = ["h", "h", "v", "h", "v", "h", "h", "h", "h", "h"];
 
+  /**
+   * Take the coordinates and alignment of ship and sets it accordingly
+   * @param {number} x x-coordinate of the grid
+   * @param {number} y y-coordinate of the grid
+   * @param {string} alignment ship alignment
+   */
   function setPositionAlignment(x, y, alignment) {
     shipCoordinates.push({ x, y });
     shipAlignment.push(alignment);
@@ -141,27 +157,6 @@ function Player() {
   return { populateShips, setPositionAlignment, makeMove, gameboard };
   // Each player object should contain its own gameboard.
 }
-
-// types of players
-// const human = Player();
-(function initializeComputer(){
-  const computer = Player();
-  computer.setPositionAlignment(6, 2, "h");
-  computer.setPositionAlignment(2, 1, "h");
-  computer.setPositionAlignment(4, 7, "v");
-  computer.setPositionAlignment(4, 2, "h");
-  computer.setPositionAlignment(4, 5, "v");
-  computer.setPositionAlignment(8, 6, "h");
-  computer.setPositionAlignment(9, 1, "h");
-  computer.setPositionAlignment(9, 4, "h");
-  computer.setPositionAlignment(5, 0, "h");
-  computer.setPositionAlignment(8, 7, "h");
-  computer.populateShips();
-})();
-
-// computer.populateShips();
-// computer.setShipCoordinates();
-// human.gameboard.boardGrid[0][0]
 
 module.exports = {
   Ship,

@@ -102,26 +102,27 @@ test("check if board is populating as expected", () => {
 });
 
 test("check populateShips()", () => {
-  const computer = Player();
-  computer.setPositionAlignment(6, 2, "h");
-  computer.setPositionAlignment(2, 1, "h");
-  computer.setPositionAlignment(4, 7, "v");
-  computer.setPositionAlignment(4, 2, "h");
-  computer.setPositionAlignment(4, 5, "v");
-  computer.setPositionAlignment(8, 6, "h");
-  computer.setPositionAlignment(9, 1, "h");
-  computer.setPositionAlignment(9, 4, "h");
-  computer.setPositionAlignment(5, 0, "h");
-  computer.setPositionAlignment(8, 7, "h");
-  
-  computer.populateShips();
-  expect(computer.gameboard.boardGrid[6][2]).toBe(0);
-  expect(computer.gameboard.boardGrid[6][6]).toBe(0);
-  expect(computer.gameboard.boardGrid[2][1]).toBeTruthy();
-  expect(computer.gameboard.boardGrid[2][2]).toBeTruthy();
-  expect(computer.gameboard.boardGrid[2][3]).toBeTruthy();
-  expect(computer.gameboard.boardGrid[2][3]).toBeTruthy();
-  expect(computer.gameboard.boardGrid[2][4]).toBeNull();
+  const { computer } = (function initializeComputer(){
+    const computer = Player();
+    computer.setPositionAlignment(5, 0, "v");
+    computer.setPositionAlignment(4, 2, "h");
+    computer.setPositionAlignment(5, 6, "v");
+    computer.setPositionAlignment(9, 8, "h");
+    computer.setPositionAlignment(7, 3, "h");
+    computer.setPositionAlignment(3, 7, "h");
+    computer.setPositionAlignment(1, 6, "h");
+    computer.setPositionAlignment(2, 3, "h");
+    computer.setPositionAlignment(0, 9, "h");
+    computer.setPositionAlignment(1, 0, "h");
+    computer.populateShips();
+    return {computer};
+  })();
+  expect(computer.gameboard.boardGrid[5][0]).toBe(0);
+  expect(computer.gameboard.boardGrid[9][0]).toBe(0);
+  expect(computer.gameboard.boardGrid[5][6]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[6][6]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[7][6]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[8][6]).toBeNull();
 });
 
 test("check vertical for computer", () => {
