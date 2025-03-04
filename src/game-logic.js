@@ -144,7 +144,20 @@ function Player() {
 
 // types of players
 // const human = Player();
-const computer = Player();
+(function initializeComputer(){
+  const computer = Player();
+  computer.setPositionAlignment(6, 2, "h");
+  computer.setPositionAlignment(2, 1, "h");
+  computer.setPositionAlignment(4, 7, "v");
+  computer.setPositionAlignment(4, 2, "h");
+  computer.setPositionAlignment(4, 5, "v");
+  computer.setPositionAlignment(8, 6, "h");
+  computer.setPositionAlignment(9, 1, "h");
+  computer.setPositionAlignment(9, 4, "h");
+  computer.setPositionAlignment(5, 0, "h");
+  computer.setPositionAlignment(8, 7, "h");
+  computer.populateShips();
+})();
 
 // computer.populateShips();
 // computer.setShipCoordinates();

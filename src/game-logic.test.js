@@ -51,12 +51,13 @@ test("ship placed is vertically", () => {
   ship1.setShipLength(5);
   ship1.setId(1);
   const gameboard = Gameboard();
-  gameboard.placeShip(ship1, 6, 2, "v");
+  gameboard.placeShip(ship1, 2, 6, "v");
   expect(gameboard.boardGrid[2][6]).toBe(1);
   expect(gameboard.boardGrid[3][6]).toBe(1);
   expect(gameboard.boardGrid[4][6]).toBe(1);
   expect(gameboard.boardGrid[5][6]).toBe(1);
   expect(gameboard.boardGrid[6][6]).toBe(1);
+  // expect(gameboard.boardGrid[][2]).toBe(1);
   expect().toBe();
 });
 
@@ -100,14 +101,38 @@ test("check if board is populating as expected", () => {
   expect(gameboard.boardGrid[2][4]).toBeNull();
 });
 
-test("populate RowStart and ColStart array", () => {
-  const human = Player();
-  human.populateShips();
-  expect(human.gameboard.boardGrid[6][2]).toBe(0);
-  expect(human.gameboard.boardGrid[6][6]).toBe(0);
-  expect(human.gameboard.boardGrid[2][1]).toBeTruthy();
-  expect(human.gameboard.boardGrid[2][2]).toBeTruthy();
-  expect(human.gameboard.boardGrid[2][3]).toBeTruthy();
-  expect(human.gameboard.boardGrid[2][3]).toBeTruthy();
-  expect(human.gameboard.boardGrid[2][4]).toBeNull();
+test("check populateShips()", () => {
+  const computer = Player();
+  computer.setPositionAlignment(6, 2, "h");
+  computer.setPositionAlignment(2, 1, "h");
+  computer.setPositionAlignment(4, 7, "v");
+  computer.setPositionAlignment(4, 2, "h");
+  computer.setPositionAlignment(4, 5, "v");
+  computer.setPositionAlignment(8, 6, "h");
+  computer.setPositionAlignment(9, 1, "h");
+  computer.setPositionAlignment(9, 4, "h");
+  computer.setPositionAlignment(5, 0, "h");
+  computer.setPositionAlignment(8, 7, "h");
+  
+  computer.populateShips();
+  expect(computer.gameboard.boardGrid[6][2]).toBe(0);
+  expect(computer.gameboard.boardGrid[6][6]).toBe(0);
+  expect(computer.gameboard.boardGrid[2][1]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[2][2]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[2][3]).toBeTruthy();
+  expect(computer.gameboard.boardGrid[2][4]).toBeNull();
+});
+
+test("check vertical for computer", () => {
+  const ship1 = Ship();
+  ship1.setShipLength(5);
+  ship1.setId(1);
+  const gameboard = Gameboard();
+  gameboard.placeShip(ship1, 5, 0, "v");
+  expect(gameboard.boardGrid[5][0]).toBeTruthy();
+  expect(gameboard.boardGrid[6][0]).toBeTruthy();
+  // expect(gameboard.boardGrid[4][5]).toBeTruthy();
+  // console.log(gameboard.boardGrid);
+  
 });
