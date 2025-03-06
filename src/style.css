@@ -1,3 +1,16 @@
 body {
-  background-color: black;
+  background-color: rgb(124, 124, 124);
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 2px;
+  margin-bottom: 20px;
+}
+.game-board div {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
 }
