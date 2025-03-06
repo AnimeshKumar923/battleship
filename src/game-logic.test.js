@@ -1,4 +1,5 @@
-const { Ship, Gameboard, Player } = require("./game-logic");
+import gameLogic from "./game-logic";
+const { Ship, Gameboard, Player } = gameLogic;
 
 test("ship is floating", () => {
   const s1 = Ship();
@@ -57,8 +58,6 @@ test("ship placed is vertically", () => {
   expect(gameboard.boardGrid[4][6]).toBe(1);
   expect(gameboard.boardGrid[5][6]).toBe(1);
   expect(gameboard.boardGrid[6][6]).toBe(1);
-  // expect(gameboard.boardGrid[][2]).toBe(1);
-  expect().toBe();
 });
 
 test("check if board is populating as expected", () => {
@@ -97,12 +96,11 @@ test("check if board is populating as expected", () => {
   expect(gameboard.boardGrid[2][1]).toBeTruthy();
   expect(gameboard.boardGrid[2][2]).toBeTruthy();
   expect(gameboard.boardGrid[2][3]).toBeTruthy();
-  expect(gameboard.boardGrid[2][3]).toBeTruthy();
   expect(gameboard.boardGrid[2][4]).toBeNull();
 });
 
 test("check populateShips()", () => {
-  const { computer } = (function initializeComputer(){
+  const { computer } = (function initializeComputer() {
     const computer = Player();
     computer.setPositionAlignment(5, 0, "v");
     computer.setPositionAlignment(4, 2, "h");
@@ -115,8 +113,9 @@ test("check populateShips()", () => {
     computer.setPositionAlignment(0, 9, "h");
     computer.setPositionAlignment(1, 0, "h");
     computer.populateShips();
-    return {computer};
+    return { computer };
   })();
+
   expect(computer.gameboard.boardGrid[5][0]).toBe(0);
   expect(computer.gameboard.boardGrid[9][0]).toBe(0);
   expect(computer.gameboard.boardGrid[5][6]).toBeTruthy();
@@ -133,7 +132,5 @@ test("check vertical for computer", () => {
   gameboard.placeShip(ship1, 5, 0, "v");
   expect(gameboard.boardGrid[5][0]).toBeTruthy();
   expect(gameboard.boardGrid[6][0]).toBeTruthy();
-  // expect(gameboard.boardGrid[4][5]).toBeTruthy();
-  // console.log(gameboard.boardGrid);
-  
 });
+

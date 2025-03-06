@@ -158,7 +158,7 @@ function Player() {
   // Each player object should contain its own gameboard.
 }
 
-module.exports = {
+export default {
   Ship,
   Gameboard,
   Player,
