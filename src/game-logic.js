@@ -2,7 +2,6 @@ function Ship() {
   let length = 0;
   let timesHit = 0;
   let id;
-  // const isShipSunk = false;
   function setShipLength(size) {
     length = size;
   }
@@ -42,7 +41,6 @@ function Ship() {
 }
 
 function Gameboard(shipsInfo) {
-  // Gameboards should be able to place ships at specific coordinates by calling the ship factory.
   /**
    * Initialize a constant 10*10 2D array with initial values as null
    */
@@ -81,8 +79,6 @@ function Gameboard(shipsInfo) {
     }
   }
 
-  // Gameboards should have a (receiveAttack) function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
-
   /**
    * It takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
    * @param {number} x x-coordinate of ship
@@ -100,9 +96,6 @@ function Gameboard(shipsInfo) {
     }
   }
 
-  // Gameboards should keep track of missed attacks so they can display them properly.
-  // => fulfilled by marking the location as 'miss'
-
   // Gameboards should be able to report whether or not all of their ships have been sunk.
 
   /**
@@ -117,7 +110,6 @@ function Gameboard(shipsInfo) {
 }
 
 function Player() {
-  // There will be two types of players in the game, ‘real’ players and ‘computer’ players.
   const shipsInfo = [];
   const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1]; // 10 ships of predetermined length
   const shipCoordinates = [];
@@ -154,11 +146,10 @@ function Player() {
     gameboard.receiveAttack(x, y);
   }
 
-  return { populateShips, setPositionAlignment, makeMove, gameboard };
-  // Each player object should contain its own gameboard.
+  return { populateShips, setPositionAlignment, makeMove, gameboard, shipCoordinates };
 }
 
-export default {
+export {
   Ship,
   Gameboard,
   Player,
