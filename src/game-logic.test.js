@@ -1,5 +1,5 @@
-import gameLogic from "./game-logic";
-const { Ship, Gameboard, Player } = gameLogic;
+// import gameLogic from "./game-logic";
+import { Ship, Gameboard, Player } from "./game-logic";
 
 test("ship is floating", () => {
   const s1 = Ship();
