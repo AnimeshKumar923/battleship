@@ -60,19 +60,43 @@ createBoard("#human-board");
 createBoard("#computer-board");
 
 (function setHumanShipBorders() {
-  const cell = document.querySelectorAll("#human-board > div");
-  // for(let i = 0)
-  human.shipAlignment.forEach(layout => {
-    if (layout === "h") {
-      for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
-        boardGrid[startRow][i] = ship.getId();
+  const cells = document.querySelectorAll("#human-board > div");
+  for (let i = 0; i < human.shipsInfo.length; i++) {
+    const { x, y } = human.shipCoordinates[i];
+    const alignment = human.shipAlignment[i];
+    const shipLength = human.shipLengths[i];
+
+    if (alignment === "h") {
+      for (let j = 0; j < shipLength; j++) {
+        const cellIndex = x * 10 + (y + j);
+        cells[cellIndex].style.border = "2px solid yellow";
       }
     } else {
-      // vertical ship placements
-      for (let i = startRow; i < ship.getShipLength() + startRow; i++) {
-        boardGrid[i][startCol] = ship.getId();
+      for (let j = 0; j < shipLength; j++) {
+        const cellIndex = (x + j) * 10 + y;
+        cells[cellIndex].style.border = "2px solid yellow";
       }
     }
-  });
+  }
 })();
 
+(function setComputerShipBorders() {
+  const cells = document.querySelectorAll("#computer-board > div");
+  for (let i = 0; i < computer.shipsInfo.length; i++) {
+    const { x, y } = computer.shipCoordinates[i];
+    const alignment = computer.shipAlignment[i];
+    const shipLength = computer.shipLengths[i];
+
+    if (alignment === "h") {
+      for (let j = 0; j < shipLength; j++) {
+        const cellIndex = x * 10 + (y + j);
+        cells[cellIndex].style.border = "2px solid #ff00bf";
+      }
+    } else {
+      for (let j = 0; j < shipLength; j++) {
+        const cellIndex = (x + j) * 10 + y;
+        cells[cellIndex].style.border = "2px solid #ff00bf";
+      }
+    }
+  }
+})();
