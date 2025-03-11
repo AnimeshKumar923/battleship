@@ -146,7 +146,7 @@ function Player() {
     gameboard.receiveAttack(x, y);
   }
 
-  return { populateShips, setPositionAlignment, makeMove, gameboard, shipCoordinates, shipLengths, shipAlignment };
+  return { populateShips, setPositionAlignment, makeMove, gameboard, shipCoordinates, shipLengths, shipAlignment, shipsInfo };
 }
 
 export {

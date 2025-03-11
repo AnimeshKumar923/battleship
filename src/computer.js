@@ -4,7 +4,7 @@ import { Ship, Gameboard, Player } from "./game-logic";
 
 // const { Ship, Gameboard, Player } = require("./game-logic").default;
 
-(function initializeHuman() {
+const { human } = (function initializeHuman() {
   const human = Player();
   human.setPositionAlignment(6, 2, "h");
   human.setPositionAlignment(2, 1, "h");
@@ -17,6 +17,8 @@ import { Ship, Gameboard, Player } from "./game-logic";
   human.setPositionAlignment(9, 4, "h");
   human.setPositionAlignment(6, 8, "h");
   human.populateShips();
+  console.log(human);
+  return { human };
 })();
 
 const { computer } = (function initializeComputer() {
@@ -47,18 +49,30 @@ const { computer } = (function initializeComputer() {
 function createBoard(boardId) {
   const board = document.querySelector(boardId);
   for (let i = 0; i < 100; i++) {
-    const cell = document.createElement("input");
-    cell.type = "checkbox";
-    cell.className = `${i}`;
-    // cell.setAttribute("shipId", shipId);
+    const cell = document.createElement("div");
+    // cell.se = `${i}`;
+    cell.setAttribute("shipid", i);
     board.appendChild(cell);
   }
-  setShipBorder();
-}
-
-function setShipBorder() {
-
 }
 
 createBoard("#human-board");
 createBoard("#computer-board");
+
+(function setHumanShipBorders() {
+  const cell = document.querySelectorAll("#human-board > div");
+  // for(let i = 0)
+  human.shipAlignment.forEach(layout => {
+    if (layout === "h") {
+      for (let i = startCol; i < ship.getShipLength() + startCol; i++) {
+        boardGrid[startRow][i] = ship.getId();
+      }
+    } else {
+      // vertical ship placements
+      for (let i = startRow; i < ship.getShipLength() + startRow; i++) {
+        boardGrid[i][startCol] = ship.getId();
+      }
+    }
+  });
+})();
+
