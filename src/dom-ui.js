@@ -1,25 +1,8 @@
 // Import your classes/factories into another file, and drive the game using event listeners to interact with your objects. Create a module that helps you manage actions that should happen in the DOM.
-import { Ship, Gameboard, Player } from "./game-logic";
+import { Player } from "./game-logic";
 // const  = default;
 
 // const { Ship, Gameboard, Player } = require("./game-logic").default;
-
-const { human } = (function initializeHuman() {
-  const human = Player();
-  human.setPositionAlignment(6, 2, "h");
-  human.setPositionAlignment(2, 1, "h");
-  human.setPositionAlignment(2, 9, "v");
-  human.setPositionAlignment(3, 6, "v");
-  human.setPositionAlignment(8, 6, "h");
-  human.setPositionAlignment(4, 2, "h");
-  human.setPositionAlignment(9, 1, "h");
-  human.setPositionAlignment(0, 5, "h");
-  human.setPositionAlignment(9, 4, "h");
-  human.setPositionAlignment(6, 8, "h");
-  human.populateShips();
-  console.log(human);
-  return { human };
-})();
 
 const { computer } = (function initializeComputer() {
   const computer = Player();
@@ -44,6 +27,23 @@ const { computer } = (function initializeComputer() {
   console.log(computer.shipCoordinates);
 
   return { computer };
+})();
+
+const { human } = (function initializeHuman() {
+  const human = Player();
+  human.setPositionAlignment(6, 2, "h");
+  human.setPositionAlignment(2, 1, "h");
+  human.setPositionAlignment(2, 9, "v");
+  human.setPositionAlignment(3, 6, "v");
+  human.setPositionAlignment(8, 6, "h");
+  human.setPositionAlignment(4, 2, "h");
+  human.setPositionAlignment(9, 1, "h");
+  human.setPositionAlignment(0, 5, "h");
+  human.setPositionAlignment(9, 4, "h");
+  human.setPositionAlignment(6, 8, "h");
+  human.populateShips();
+  console.log(human);
+  return { human };
 })();
 
 function createBoard(boardId) {
@@ -80,6 +80,12 @@ createBoard("#computer-board");
   }
 })();
 
+/**
+ * commented after testing the working functionality
+ * un-comment to see the effect if required
+ * before deploying, comment out to remove cmputer visibility
+ */
+
 (function setComputerShipBorders() {
   const cells = document.querySelectorAll("#computer-board > div");
   for (let i = 0; i < computer.shipsInfo.length; i++) {
@@ -99,4 +105,37 @@ createBoard("#computer-board");
       }
     }
   }
+})();
+
+(function attachEventListeners() {
+  // console.log((document.querySelectorAll(".game-board > div")[105].style.color = "green"));
+  // document.querySelectorAll("#human-board > div")[10].style.border = "2px solid blue";
+  // document.querySelectorAll("#computer-board > div")[15].style.border = "2px solid blue";
+  document.querySelectorAll("#computer-board > div").forEach((element) => {
+    element.addEventListener("click", (e) => {
+      const shipid = e.target.getAttribute("shipid");
+      let x = Math.floor(shipid / 10);
+      let y = shipid % 10;
+      console.log(x);
+      console.log(y);
+      console.log(typeof computer.gameboard.boardGrid[x][y]);
+      // console.log(computer.gameboard.boardGrid[x][y] == null);
+      // console.log(computer.gameboard.boardGrid);
+
+      console.log(`Clicked div with shipId: ${shipid}`);
+      e.target.style.border = "2px solid blue";
+      
+      if(computer.gameboard.boardGrid[x][y] == null){
+        /**
+         * add miss logic
+         * update dom -> add dot, make background yellow, borders black or choose some default color
+         */
+      }else{
+        /**
+         * add hit logic
+         * update dom -> add cross mark, make border red
+         */
+      }
+    });
+  });
 })();
