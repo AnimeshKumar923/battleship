@@ -120,23 +120,26 @@ createBoard("#computer-board");
 
       console.log(`Clicked div with shipId: ${shipid}`);
       e.target.style.border = "2px solid blue";
-
-      computer.gameboard.receiveAttack(x, y);
+      
+      let hitResult = computer.gameboard.receiveAttack(x, y);
       console.log(computer.gameboard.boardGrid[x][y]);
       console.log(computer.gameboard.boardGrid);
+      console.log(hitResult);
       // console.log(computer.shipsInfo[6].timesHit);
       
-      // if (computer.gameboard.boardGrid[x][y] == null) {
-      //   /**
-      //    * add miss logic
-      //    * update dom -> add dot, make background yellow, borders black or choose some default color
-      //    */
-      // } else {
-      //   /**
-      //    * add hit logic
-      //    * update dom -> add cross mark, make border red
-      //    */
-      // }
+      if (hitResult) {
+        /**
+         * add hit logic
+         * update dom -> fill red color (red cross logo not working), make border red
+        */
+        e.target.style.border = "2px solid red";
+        e.target.style.backgroundColor = "red";
+      } else {
+        /**
+         * add miss logic
+         * update dom -> add dot, make background yellow, borders black or choose some default color
+         */
+      }
     });
   });
 })();

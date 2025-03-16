@@ -96,13 +96,13 @@ function Gameboard(shipsInfo) {
       //   ship.hit();
       // }
       shipsInfo[shipId].hit();
-      console.log(shipsInfo[shipId]);
+      // console.log(shipsInfo[shipId]);
       // check all ship status after every hit
       checkAllShipStatus();
       return true; // update cross mark logo using true-false
     } else {
       boardGrid[x][y] = "miss";
-      console.log(shipsInfo[shipId]);
+      // console.log(shipsInfo[shipId]);
       return false;
     }
 
