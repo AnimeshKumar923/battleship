@@ -112,26 +112,26 @@ createBoard("#computer-board");
       const shipid = e.target.getAttribute("shipid");
       let x = Math.floor(shipid / 10);
       let y = shipid % 10;
-      console.log(x);
-      console.log(y);
-      console.log(typeof computer.gameboard.boardGrid[x][y]);
+      // console.log(x);
+      // console.log(y);
+      // console.log(typeof computer.gameboard.boardGrid[x][y]);
       // console.log(computer.gameboard.boardGrid[x][y] == null);
       // console.log(computer.gameboard.boardGrid);
 
       console.log(`Clicked div with shipId: ${shipid}`);
-      e.target.style.border = "2px solid blue";
-      
+      // e.target.style.border = "2px solid blue";
+
       let hitResult = computer.gameboard.receiveAttack(x, y);
-      console.log(computer.gameboard.boardGrid[x][y]);
-      console.log(computer.gameboard.boardGrid);
+      // console.log(computer.gameboard.boardGrid[x][y]);
+      // console.log(computer.gameboard.boardGrid);
       console.log(hitResult);
       // console.log(computer.shipsInfo[6].timesHit);
-      
+
       if (hitResult) {
         /**
          * add hit logic
          * update dom -> fill red color (red cross logo not working), make border red
-        */
+         */
         e.target.style.border = "2px solid red";
         e.target.style.backgroundColor = "red";
       } else {
@@ -139,6 +139,8 @@ createBoard("#computer-board");
          * add miss logic
          * update dom -> add dot, make background yellow, borders black or choose some default color
          */
+        e.target.style.border = "2px solid yellow";
+        e.target.style.backgroundColor = "#e3fc0688";
       }
     });
   });
@@ -150,4 +152,8 @@ document
   .addEventListener("click", () => {
     console.log(computer.gameboard.boardGrid);
     console.log(computer.shipsInfo);
+    computer.shipsInfo.forEach((ship) => {
+      console.log(`Ship ${ship.getId()} length: ${ship.getShipLength()}`); // Debugging line
+      console.log(`Ship ${ship.isSunk()}`);
+    });
   });

@@ -1,6 +1,6 @@
 function Ship() {
-  let length;
-  let timesHit;
+  let length = 0;
+  let timesHit = 0;
   let id;
 
   function setShipLength(size) {
@@ -28,7 +28,7 @@ function Ship() {
    * @returns sunk status of ship
    */
   function isSunk() {
-    return timesHit >= length ? true : false;
+    return timesHit === length ? true : false;
   }
 
   return {
@@ -87,7 +87,7 @@ function Gameboard(shipsInfo) {
    */
   function receiveAttack(x, y) {
     let shipId = boardGrid[x][y];
-    // console.log(shipId);
+    console.log(shipId);
     // console.log(boardGrid[x][y]);
 
     if (shipId !== null) {
@@ -95,8 +95,11 @@ function Gameboard(shipsInfo) {
       // if (ship) {
       //   ship.hit();
       // }
-      shipsInfo[shipId].hit();
       // console.log(shipsInfo[shipId]);
+      shipsInfo[shipId].hit();
+      if (shipsInfo[shipId].isSunk()) {
+        alert(`ship ${shipsInfo[shipId].getId()} has sunk!`);
+      }
       // check all ship status after every hit
       checkAllShipStatus();
       return true; // update cross mark logo using true-false
@@ -105,7 +108,6 @@ function Gameboard(shipsInfo) {
       // console.log(shipsInfo[shipId]);
       return false;
     }
-
   }
 
   // Gameboards should be able to report whether or not all of their ships have been sunk.
@@ -145,6 +147,7 @@ function Player() {
       ship.setShipLength(shipLengths[i]);
       // console.log(`Ship ${i} length: ${ship.getShipLength()}`); // Debugging line
       shipsInfo.push(ship);
+      // console.log(`Ship ${i} length: ${ship.getShipLength()}`); // Debugging line
     }
   }
 
@@ -163,14 +166,14 @@ function Player() {
     }
   }
 
-  function makeMove(x, y) {
-    gameboard.receiveAttack(x, y);
-  }
+  // function makeMove(x, y) {
+  //   gameboard.receiveAttack(x, y);
+  // }
 
   return {
     setPositionAlignment,
     placeShipsOnBoard,
-    makeMove,
+    // makeMove,
     gameboard,
     shipCoordinates,
     shipLengths,
