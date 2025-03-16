@@ -1,7 +1,8 @@
 function Ship() {
-  let length = 0;
-  let timesHit = 0;
+  let length;
+  let timesHit;
   let id;
+
   function setShipLength(size) {
     length = size;
   }
@@ -47,7 +48,7 @@ function Gameboard(shipsInfo) {
   const boardGrid = Array.from({ length: 10 }, () => Array(10).fill(null));
 
   /**
-   * Takes the ship, coordinates and alignment
+   * Takes the ship, coordinates and alignment and places it on the 2-D array
    * @param {object} ship ship which will be placed
    * @param {number} startRow starting x-coordinate of ship
    * @param {number} startCol starting y-coordinate of ship
@@ -85,15 +86,26 @@ function Gameboard(shipsInfo) {
    * @param {number} y y-coordinate of ship
    */
   function receiveAttack(x, y) {
-    const shipId = boardGrid[x][y];
+    let shipId = boardGrid[x][y];
+    // console.log(shipId);
+    // console.log(boardGrid[x][y]);
+
     if (shipId !== null) {
-      const ship = shipsInfo.find((ship) => ship.getId() === shipId);
-      if (ship) {
-        ship.hit();
-      }
+      // const ship = shipsInfo.find((ship) => ship.getId() === shipId);
+      // if (ship) {
+      //   ship.hit();
+      // }
+      shipsInfo[shipId].hit();
+      console.log(shipsInfo[shipId]);
+      // check all ship status after every hit
+      checkAllShipStatus();
+      return true; // update cross mark logo using true-false
     } else {
-      shipId = "miss";
+      boardGrid[x][y] = "miss";
+      console.log(shipsInfo[shipId]);
+      return false;
     }
+
   }
 
   // Gameboards should be able to report whether or not all of their ships have been sunk.
@@ -126,31 +138,45 @@ function Player() {
     shipAlignment.push(alignment);
   }
 
-  const gameboard = Gameboard(shipsInfo);
-
   function populateShips() {
     for (let i = 0; i < 10; i++) {
       const ship = Ship();
       ship.setId(i);
       ship.setShipLength(shipLengths[i]);
+      // console.log(`Ship ${i} length: ${ship.getShipLength()}`); // Debugging line
       shipsInfo.push(ship);
+    }
+  }
+
+  // Populate ships before creating the gameboard
+  populateShips();
+  const gameboard = Gameboard(shipsInfo);
+
+  function placeShipsOnBoard() {
+    for (let i = 0; i < 10; i++) {
       gameboard.placeShip(
-        ship,
+        shipsInfo[i],
         shipCoordinates[i].x,
         shipCoordinates[i].y,
         shipAlignment[i],
       );
     }
   }
-  function makeMove() {
+
+  function makeMove(x, y) {
     gameboard.receiveAttack(x, y);
   }
 
-  return { populateShips, setPositionAlignment, makeMove, gameboard, shipCoordinates, shipLengths, shipAlignment, shipsInfo };
+  return {
+    setPositionAlignment,
+    placeShipsOnBoard,
+    makeMove,
+    gameboard,
+    shipCoordinates,
+    shipLengths,
+    shipAlignment,
+    shipsInfo,
+  };
 }
 
-export {
-  Ship,
-  Gameboard,
-  Player,
-};
+export { Ship, Gameboard, Player };

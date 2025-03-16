@@ -1,8 +1,4 @@
-// Import your classes/factories into another file, and drive the game using event listeners to interact with your objects. Create a module that helps you manage actions that should happen in the DOM.
 import { Player } from "./game-logic";
-// const  = default;
-
-// const { Ship, Gameboard, Player } = require("./game-logic").default;
 
 const { computer } = (function initializeComputer() {
   const computer = Player();
@@ -16,7 +12,7 @@ const { computer } = (function initializeComputer() {
   computer.setPositionAlignment(2, 3, "h");
   computer.setPositionAlignment(0, 9, "h");
   computer.setPositionAlignment(1, 0, "h");
-  computer.populateShips();
+  computer.placeShipsOnBoard();
 
   // console.log(computer.gameboard.boardGrid[5][0]);
   // console.log(computer.gameboard.boardGrid[4][2]);
@@ -41,8 +37,8 @@ const { human } = (function initializeHuman() {
   human.setPositionAlignment(0, 5, "h");
   human.setPositionAlignment(9, 4, "h");
   human.setPositionAlignment(6, 8, "h");
-  human.populateShips();
-  console.log(human);
+  human.placeShipsOnBoard();
+  // console.log(human);
   return { human };
 })();
 
@@ -124,18 +120,31 @@ createBoard("#computer-board");
 
       console.log(`Clicked div with shipId: ${shipid}`);
       e.target.style.border = "2px solid blue";
+
+      computer.gameboard.receiveAttack(x, y);
+      console.log(computer.gameboard.boardGrid[x][y]);
+      console.log(computer.gameboard.boardGrid);
+      // console.log(computer.shipsInfo[6].timesHit);
       
-      if(computer.gameboard.boardGrid[x][y] == null){
-        /**
-         * add miss logic
-         * update dom -> add dot, make background yellow, borders black or choose some default color
-         */
-      }else{
-        /**
-         * add hit logic
-         * update dom -> add cross mark, make border red
-         */
-      }
+      // if (computer.gameboard.boardGrid[x][y] == null) {
+      //   /**
+      //    * add miss logic
+      //    * update dom -> add dot, make background yellow, borders black or choose some default color
+      //    */
+      // } else {
+      //   /**
+      //    * add hit logic
+      //    * update dom -> add cross mark, make border red
+      //    */
+      // }
     });
   });
 })();
+
+// remove after debugging session
+document
+  .querySelector(".show-gameboard-computer")
+  .addEventListener("click", () => {
+    console.log(computer.gameboard.boardGrid);
+    console.log(computer.shipsInfo);
+  });
