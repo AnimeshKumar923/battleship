@@ -41,7 +41,7 @@ function Ship() {
   };
 }
 
-function Gameboard(shipsInfo) {
+function Gameboard(shipsInfo, shipLengths) {
   /**
    * Initialize a constant 10*10 2D array with initial values as null
    */
@@ -87,18 +87,13 @@ function Gameboard(shipsInfo) {
    */
   function receiveAttack(x, y) {
     let shipId = boardGrid[x][y];
-    console.log(shipId);
+    console.log(`ship id: ${shipId}`);
     // console.log(boardGrid[x][y]);
 
-    if (shipId !== null) {
-      // const ship = shipsInfo.find((ship) => ship.getId() === shipId);
-      // if (ship) {
-      //   ship.hit();
-      // }
-      // console.log(shipsInfo[shipId]);
+    if (shipId !== null && shipId !== "miss") {
       shipsInfo[shipId].hit();
       if (shipsInfo[shipId].isSunk()) {
-        alert(`ship ${shipsInfo[shipId].getId()} has sunk!`);
+        // alert(`ship ${shipsInfo[shipId].getId()} has sunk!`);
       }
       // check all ship status after every hit
       checkAllShipStatus();
@@ -115,10 +110,17 @@ function Gameboard(shipsInfo) {
   /**
    * Checks if all the ships have sunk
    */
+  let sinkShipsCount = 0;
+  
   function checkAllShipStatus() {
     shipsInfo.forEach((ship) => {
-      return ship.isSunk() ? true : false;
-    }); // incomplete logic for now
+      if (ship.isSunk()) {
+        sinkShipsCount++;
+      }
+      sinkShipsCount == shipLengths.length ? true : false;
+      // return ship.isSunk();
+    });
+    console.log(`ship sunk: ${sinkShipsCount}`);
   }
   return { placeShip, receiveAttack, checkAllShipStatus, boardGrid };
 }
@@ -153,7 +155,7 @@ function Player() {
 
   // Populate ships before creating the gameboard
   populateShips();
-  const gameboard = Gameboard(shipsInfo);
+  const gameboard = Gameboard(shipsInfo, shipLengths);
 
   function placeShipsOnBoard() {
     for (let i = 0; i < 10; i++) {

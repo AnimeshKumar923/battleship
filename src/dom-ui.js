@@ -14,10 +14,6 @@ const { computer } = (function initializeComputer() {
   computer.setPositionAlignment(1, 0, "h");
   computer.placeShipsOnBoard();
 
-  // console.log(computer.gameboard.boardGrid[5][0]);
-  // console.log(computer.gameboard.boardGrid[4][2]);
-  // console.log(computer.gameboard.boardGrid[4][3]);
-  // console.log(computer.gameboard.boardGrid[4][4]);
   console.log(computer.gameboard.boardGrid);
 
   console.log(computer.shipCoordinates);
@@ -104,41 +100,21 @@ createBoard("#computer-board");
 })();
 
 (function attachEventListeners() {
-  // console.log((document.querySelectorAll(".game-board > div")[105].style.color = "green"));
-  // document.querySelectorAll("#human-board > div")[10].style.border = "2px solid blue";
-  // document.querySelectorAll("#computer-board > div")[15].style.border = "2px solid blue";
   document.querySelectorAll("#computer-board > div").forEach((element) => {
     element.addEventListener("click", (e) => {
       const shipid = e.target.getAttribute("shipid");
       let x = Math.floor(shipid / 10);
       let y = shipid % 10;
-      // console.log(x);
-      // console.log(y);
-      // console.log(typeof computer.gameboard.boardGrid[x][y]);
-      // console.log(computer.gameboard.boardGrid[x][y] == null);
-      // console.log(computer.gameboard.boardGrid);
 
       console.log(`Clicked div with shipId: ${shipid}`);
-      // e.target.style.border = "2px solid blue";
 
       let hitResult = computer.gameboard.receiveAttack(x, y);
-      // console.log(computer.gameboard.boardGrid[x][y]);
-      // console.log(computer.gameboard.boardGrid);
       console.log(hitResult);
-      // console.log(computer.shipsInfo[6].timesHit);
 
       if (hitResult) {
-        /**
-         * add hit logic
-         * update dom -> fill red color (red cross logo not working), make border red
-         */
         e.target.style.border = "2px solid red";
         e.target.style.backgroundColor = "red";
       } else {
-        /**
-         * add miss logic
-         * update dom -> add dot, make background yellow, borders black or choose some default color
-         */
         e.target.style.border = "2px solid yellow";
         e.target.style.backgroundColor = "#e3fc0688";
       }
@@ -153,7 +129,7 @@ document
     console.log(computer.gameboard.boardGrid);
     console.log(computer.shipsInfo);
     computer.shipsInfo.forEach((ship) => {
-      console.log(`Ship ${ship.getId()} length: ${ship.getShipLength()}`); // Debugging line
+      console.log(`Ship ${ship.getId()} length: ${ship.getShipLength()}`);
       console.log(`Ship ${ship.isSunk()}`);
     });
   });
