@@ -2,7 +2,7 @@ function Ship() {
   let length = 0;
   let timesHit = 0;
   let id;
-  // const isShipSunk = false;
+
   function setShipLength(size) {
     length = size;
   }
@@ -28,7 +28,7 @@ function Ship() {
    * @returns sunk status of ship
    */
   function isSunk() {
-    return timesHit >= length ? true : false;
+    return timesHit === length ? true : false;
   }
 
   return {
@@ -41,15 +41,14 @@ function Ship() {
   };
 }
 
-function Gameboard(shipsInfo) {
-  // Gameboards should be able to place ships at specific coordinates by calling the ship factory.
+function Gameboard(shipsInfo, shipLengths) {
   /**
    * Initialize a constant 10*10 2D array with initial values as null
    */
   const boardGrid = Array.from({ length: 10 }, () => Array(10).fill(null));
 
   /**
-   * Takes the ship, coordinates and alignment
+   * Takes the ship, coordinates and alignment and places it on the 2-D array
    * @param {object} ship ship which will be placed
    * @param {number} startRow starting x-coordinate of ship
    * @param {number} startCol starting y-coordinate of ship
@@ -81,43 +80,52 @@ function Gameboard(shipsInfo) {
     }
   }
 
-  // Gameboards should have a (receiveAttack) function that takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
-
   /**
    * It takes a pair of coordinates, determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
    * @param {number} x x-coordinate of ship
    * @param {number} y y-coordinate of ship
    */
   function receiveAttack(x, y) {
-    const shipId = boardGrid[x][y];
-    if (shipId !== null) {
-      const ship = shipsInfo.find((ship) => ship.getId() === shipId);
-      if (ship) {
-        ship.hit();
+    let shipId = boardGrid[x][y];
+    console.log(`ship id: ${shipId}`);
+    // console.log(boardGrid[x][y]);
+
+    if (shipId !== null && shipId !== "miss") {
+      shipsInfo[shipId].hit();
+      if (shipsInfo[shipId].isSunk()) {
+        // alert(`ship ${shipsInfo[shipId].getId()} has sunk!`);
       }
+      // check all ship status after every hit
+      checkAllShipStatus();
+      return true; // update cross mark logo using true-false
     } else {
-      shipId = "miss";
+      boardGrid[x][y] = "miss";
+      // console.log(shipsInfo[shipId]);
+      return false;
     }
   }
-
-  // Gameboards should keep track of missed attacks so they can display them properly.
-  // => fulfilled by marking the location as 'miss'
 
   // Gameboards should be able to report whether or not all of their ships have been sunk.
 
   /**
    * Checks if all the ships have sunk
    */
+  let sinkShipsCount = 0;
+  
   function checkAllShipStatus() {
     shipsInfo.forEach((ship) => {
-      return ship.isSunk() ? true : false;
-    }); // incomplete logic for now
+      if (ship.isSunk()) {
+        sinkShipsCount++;
+      }
+      sinkShipsCount == shipLengths.length ? true : false;
+      // return ship.isSunk();
+    });
+    console.log(`ship sunk: ${sinkShipsCount}`);
   }
   return { placeShip, receiveAttack, checkAllShipStatus, boardGrid };
 }
 
 function Player() {
-  // There will be two types of players in the game, ‘real’ players and ‘computer’ players.
   const shipsInfo = [];
   const shipLengths = [5, 3, 3, 2, 2, 2, 1, 1, 1, 1]; // 10 ships of predetermined length
   const shipCoordinates = [];
@@ -134,32 +142,46 @@ function Player() {
     shipAlignment.push(alignment);
   }
 
-  const gameboard = Gameboard(shipsInfo);
-
   function populateShips() {
     for (let i = 0; i < 10; i++) {
       const ship = Ship();
       ship.setId(i);
       ship.setShipLength(shipLengths[i]);
+      // console.log(`Ship ${i} length: ${ship.getShipLength()}`); // Debugging line
       shipsInfo.push(ship);
+      // console.log(`Ship ${i} length: ${ship.getShipLength()}`); // Debugging line
+    }
+  }
+
+  // Populate ships before creating the gameboard
+  populateShips();
+  const gameboard = Gameboard(shipsInfo, shipLengths);
+
+  function placeShipsOnBoard() {
+    for (let i = 0; i < 10; i++) {
       gameboard.placeShip(
-        ship,
+        shipsInfo[i],
         shipCoordinates[i].x,
         shipCoordinates[i].y,
         shipAlignment[i],
       );
     }
   }
-  function makeMove() {
-    gameboard.receiveAttack(x, y);
-  }
 
-  return { populateShips, setPositionAlignment, makeMove, gameboard };
-  // Each player object should contain its own gameboard.
+  // function makeMove(x, y) {
+  //   gameboard.receiveAttack(x, y);
+  // }
+
+  return {
+    setPositionAlignment,
+    placeShipsOnBoard,
+    // makeMove,
+    gameboard,
+    shipCoordinates,
+    shipLengths,
+    shipAlignment,
+    shipsInfo,
+  };
 }
 
-module.exports = {
-  Ship,
-  Gameboard,
-  Player,
-};
+export { Ship, Gameboard, Player };

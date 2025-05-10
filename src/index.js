@@ -1,2 +1,3 @@
 import "./style.css";
-import * as gameLogic from "./game-logic";
+import computer from "./dom-ui";
+// import human from "./human";
